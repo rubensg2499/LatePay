@@ -3,11 +3,30 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_subtitle">contact@latepay.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Configuración</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <!--Nombres de las opciones-->
+    <string name="menu_cliente">Lista de clientes</string>
+    <string name="menu_agregar_cliente">Agregar cliente</string>
+    <string name="menu_actualizar_cliente">Actualizar cliente</string>
+    <string name="menu_acerca_de">Acerca de</string>
+    <string name="nombre_cliente">Ej. Cliente</string>
+
+
+    <!--Nombres de las acciones-->
+    <string name="guardar">Guardar</string>
+    <string name="actualizar">Actualizar</string>
+    <string name="Eliminar">Eliminar</string>
+    <string name="aceptar">Aceptar</string>
+
+    <!--Nombres de los mesajes-->
+    <string name="confirmacion_elimnar">¿Está seguro de eliminar el registro?, esta acción no se puede deshacer.</string>
+    <string name="deuda_total">Debe: MXN $</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
