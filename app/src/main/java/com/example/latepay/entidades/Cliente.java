@@ -5,15 +5,17 @@ public class Cliente {
     private String first_name;
     private String last_name;
     private String phone;
+    private String email;
     private String address;
     private String created_date;
     private double total_debt;
 
-    public Cliente(long customer_id, String first_name, String last_name, String phone, String address, String created_date, double total_debt) {
+    public Cliente(long customer_id, String first_name, String last_name, String phone, String email, String address, String created_date, double total_debt) {
         this.customer_id = customer_id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.phone = phone;
+        this.email = email;
         this.address = address;
         this.created_date = created_date;
         this.total_debt = total_debt;
@@ -21,6 +23,14 @@ public class Cliente {
 
     public long getCustomer_id() {
         return customer_id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setCustomer_id(long customer_id) {

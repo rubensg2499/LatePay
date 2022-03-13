@@ -1,13 +1,23 @@
 package com.example.latepay;
 
+import static com.example.latepay.utilidades.utilidades.FIELD_CUSTOMER_ID;
+import static com.example.latepay.utilidades.utilidades.FIELD_PRICE;
+import static com.example.latepay.utilidades.utilidades.TABLE_CUSTOMER;
+import static com.example.latepay.utilidades.utilidades.TABLE_DEBT;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.latepay.databinding.ActivityMainBinding;
+import com.example.latepay.entidades.Cliente;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +28,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class clientes extends Fragment {
+    ArrayList<Cliente> listClientes = new ArrayList<Cliente>();
     List<ListElement> elements;
     private ActivityMainBinding binding;
     // TODO: Rename parameter arguments, choose names that match
@@ -56,31 +67,62 @@ public class clientes extends Fragment {
         return inflater.inflate(R.layout.fragment_clientes, container, false);
     }
     @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         elements = new ArrayList<>();
-        elements.add(
-                new ListElement(
-                        1,
-                        "Pedro",
-                        "Pérez",
-                        "9712222469",
-                        "pedro.perez@gmail.com",
-                        "Segunda norte s/n col, linda vista",
-                        "01/01/2021",
-                        "MXN $23.00",
-                        "#000000"
-                )
-        );
+        getCustomers();
         ListAdapter listAdapter = new ListAdapter(elements, getActivity());
         RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(listAdapter);
+    }
+    public void getCustomers(){
+        ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(getActivity(),"late_pay_bd",null,1);
+        SQLiteDatabase db = conexionSQLiteHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_CUSTOMER, null);
+        while(cursor.moveToNext()){
+            double deuda = 0.0;
+            Cursor cursor2 = db.rawQuery("SELECT " + FIELD_PRICE + " FROM " + TABLE_DEBT + " WHERE "+FIELD_CUSTOMER_ID+" = "+cursor.getInt(0),null);
+            while (cursor2.moveToNext()){
+                deuda+=cursor2.getDouble(0);
+            }
+            listClientes.add(
+                    new Cliente(
+                            cursor.getInt(0),
+                            cursor.getString(1),
+                            cursor.getString(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5),
+                            cursor.getString(6),
+                            deuda
+                    )
+            );
+        }
+        setListView(listClientes);
+    }
+
+
+    public void setListView(ArrayList<Cliente> listClientes){
+        elements.clear();
+        for (Cliente c: listClientes) {
+            elements.add(new ListElement(
+                    c.getCustomer_id(),
+                    c.getFirst_name()+c.getCustomer_id(),
+                    c.getLast_name(),
+                    (c.getPhone().equalsIgnoreCase(""))?"Sin teléfono":c.getPhone(),
+                    c.getEmail(),
+                    c.getAddress(),
+                    c.getCreated_date(),
+                    "MXN $"+c.getTotal_debt(),
+                    "#000000"
+            ));
+        }
+
     }
 }
