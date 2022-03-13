@@ -23,10 +23,17 @@
     <string name="actualizar">Actualizar</string>
     <string name="Eliminar">Eliminar</string>
     <string name="aceptar">Aceptar</string>
-
+    <string name="salir">Salir</string>
     <!--Nombres de los mesajes-->
     <string name="confirmacion_elimnar">¿Está seguro de eliminar el registro?, esta acción no se puede deshacer.</string>
     <string name="deuda_total">Debe: MXN $</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Nombres de los inputs-->
+    <string name="txt_nombre">Nombre</string>
+    <string name="txt_apellidos">Apellidos</string>
+    <string name="txt_telefono">Teléfono</string>
+    <string name="txt_correo">Correo electrónico</string>
+    <string name="txt_direccion">Dirección</string>
 </resources>
