@@ -13,10 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import com.example.latepay.databinding.ActivityMainBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.latepay.databinding.ActivityMainBinding;
 import com.example.latepay.entidades.Cliente;
 
 import java.util.ArrayList;
@@ -28,7 +28,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class clientes extends Fragment {
-    ArrayList<Cliente> listClientes = new ArrayList<Cliente>();
+    ArrayList<Cliente> listClientes;
     List<ListElement> elements;
     private ActivityMainBinding binding;
     // TODO: Rename parameter arguments, choose names that match
@@ -85,6 +85,7 @@ public class clientes extends Fragment {
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(getActivity(),"late_pay_bd",null,1);
         SQLiteDatabase db = conexionSQLiteHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_CUSTOMER, null);
+        listClientes = new ArrayList<>();
         while(cursor.moveToNext()){
             double deuda = 0.0;
             Cursor cursor2 = db.rawQuery("SELECT " + FIELD_PRICE + " FROM " + TABLE_DEBT + " WHERE "+FIELD_CUSTOMER_ID+" = "+cursor.getInt(0),null);
@@ -103,7 +104,10 @@ public class clientes extends Fragment {
                             deuda
                     )
             );
+            cursor2.close();
         }
+        cursor.close();
+
         setListView(listClientes);
     }
 
@@ -113,7 +117,7 @@ public class clientes extends Fragment {
         for (Cliente c: listClientes) {
             elements.add(new ListElement(
                     c.getCustomer_id(),
-                    c.getFirst_name()+c.getCustomer_id(),
+                    c.getFirst_name(),
                     c.getLast_name(),
                     (c.getPhone().equalsIgnoreCase(""))?"Sin teléfono":c.getPhone(),
                     c.getEmail(),
