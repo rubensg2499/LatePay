@@ -1,12 +1,16 @@
 package com.example.latepay;
 
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import com.example.latepay.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,7 +18,8 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class clientes extends Fragment {
-
+    List<ListElement> elements;
+    private ActivityMainBinding binding;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -28,14 +33,6 @@ public class clientes extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment clientes.
-     */
     // TODO: Rename and change types and number of parameters
     public static clientes newInstance(String param1, String param2) {
         clientes fragment = new clientes();
@@ -49,10 +46,7 @@ public class clientes extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -60,5 +54,33 @@ public class clientes extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_clientes, container, false);
+    }
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState){
+        elements = new ArrayList<>();
+        elements.add(
+                new ListElement(
+                        1,
+                        "Pedro",
+                        "Pérez",
+                        "9712222469",
+                        "pedro.perez@gmail.com",
+                        "Segunda norte s/n col, linda vista",
+                        "01/01/2021",
+                        "MXN $23.00",
+                        "#000000"
+                )
+        );
+        ListAdapter listAdapter = new ListAdapter(elements, getActivity());
+        RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(listAdapter);
     }
 }

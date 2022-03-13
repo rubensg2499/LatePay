@@ -8,17 +8,17 @@
     <fragment
         android:id="@+id/clientes"
         android:name="com.example.latepay.clientes"
-        android:label="fragment_clientes"
+        android:label="@string/menu_cliente"
         tools:layout="@layout/fragment_clientes" />
     <fragment
         android:id="@+id/agregar_cliente"
         android:name="com.example.latepay.agregar_cliente"
-        android:label="fragment_agregar_cliente"
+        android:label="@string/menu_agregar_cliente"
         tools:layout="@layout/fragment_agregar_cliente" />
     <fragment
         android:id="@+id/acerca_de"
         android:name="com.example.latepay.acerca_de"
-        android:label="fragment_acerca_de"
+        android:label="@string/menu_acerca_de"
         tools:layout="@layout/fragment_acerca_de" />
 
 </navigation>
