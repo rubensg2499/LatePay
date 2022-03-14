@@ -5,6 +5,7 @@ import static com.example.latepay.utilidades.utilidades.FIELD_PRICE;
 import static com.example.latepay.utilidades.utilidades.TABLE_CUSTOMER;
 import static com.example.latepay.utilidades.utilidades.TABLE_DEBT;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -75,12 +76,22 @@ public class clientes extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState){
         elements = new ArrayList<>();
         getCustomers();
-        ListAdapter listAdapter = new ListAdapter(elements, getActivity());
+        ListAdapter listAdapter = new ListAdapter(elements, getActivity(), item -> {
+            moveToActivity(item);
+
+        });
         RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(listAdapter);
     }
+
+    public void moveToActivity(ListElement item){
+        Intent intent = new Intent(getActivity(), actualizar_cliente.class);
+        intent.putExtra("ListElement", item);
+        startActivity(intent);
+    }
+
     public void getCustomers(){
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(getActivity(),"late_pay_bd",null,1);
         SQLiteDatabase db = conexionSQLiteHelper.getReadableDatabase();

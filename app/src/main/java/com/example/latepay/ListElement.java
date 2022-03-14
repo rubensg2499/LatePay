@@ -1,6 +1,8 @@
 package com.example.latepay;
 
-public class ListElement {
+import java.io.Serializable;
+
+public class ListElement implements Serializable {
     public long customer_id;
     public String first_name;
     public String last_name;

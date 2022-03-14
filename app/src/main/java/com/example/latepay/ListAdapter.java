@@ -17,14 +17,20 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     private List<ListElement> mdata;
     private LayoutInflater mInflater;
     private Context context;
+    final ListAdapter.onItemClickListener listener;
 
-    public ListAdapter(List<ListElement> itemList, Context context){
+    public interface onItemClickListener{
+        void onItemClick(ListElement item);
+    }
+    public ListAdapter(List<ListElement> itemList, Context context, ListAdapter.onItemClickListener listener){
         this.mInflater = LayoutInflater.from(context);
+        this.context = context;
         this.mdata = itemList;
+        this.listener = listener;
     }
 
     @Override
-    public int getItemCount(){return mdata.size();}
+    public int getItemCount(){ return mdata.size(); }
 
     @Override
     public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -53,6 +59,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             nombre.setText(item.getFirst_name() + " " + item.getLast_name());
             telefono.setText(item.getPhone());
             deuda.setText(item.getTotal_debt());
+            itemView.setOnClickListener(view -> listener.onItemClick(item));
         }
     }
 }

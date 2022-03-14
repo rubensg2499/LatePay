@@ -21,7 +21,7 @@
     <!--Nombres de las acciones-->
     <string name="guardar">Guardar</string>
     <string name="actualizar">Actualizar</string>
-    <string name="Eliminar">Eliminar</string>
+    <string name="eliminar">Eliminar</string>
     <string name="aceptar">Aceptar</string>
     <string name="salir">Salir</string>
     <!--Nombres de los mesajes-->
@@ -36,4 +36,6 @@
     <string name="txt_telefono">Teléfono</string>
     <string name="txt_correo">Correo electrónico</string>
     <string name="txt_direccion">Dirección</string>
+    <string name="txt_id">ID</string>
+    <string name="txt_fecha_creacion">Fecha de creación</string>
 </resources>
