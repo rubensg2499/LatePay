@@ -20,14 +20,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.latepay.databinding.ActivityMainBinding;
 import com.example.latepay.entidades.Cliente;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class clientes extends Fragment {
     ArrayList<Cliente> listClientes;
-    List<ListElement> elements;
+    List<ListElementCustomer> elements;
     private ActivityMainBinding binding;
     // TODO: Rename parameter arguments, choose names that match
     public clientes() {
@@ -50,37 +49,37 @@ public class clientes extends Fragment {
         View view = getView();
         elements = new ArrayList<>();
         getCustomers();
-        ListAdapter listAdapter = new ListAdapter(elements, getActivity(), item -> messageDeleteDialog(view,item));
+        ListAdapterCustomer listAdapterCustomer = new ListAdapterCustomer(elements, getActivity(), item -> messageDeleteDialog(view,item));
         if(view!=null) {
             RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            recyclerView.setAdapter(listAdapter);
+            recyclerView.setAdapter(listAdapterCustomer);
         }
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         elements = new ArrayList<>();
         getCustomers();
-        ListAdapter listAdapter = new ListAdapter(elements, getActivity(), item -> messageDeleteDialog(view,item));
+        ListAdapterCustomer listAdapterCustomer = new ListAdapterCustomer(elements, getActivity(), item -> messageDeleteDialog(view,item));
         RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(listAdapter);
+        recyclerView.setAdapter(listAdapterCustomer);
     }
-    public void messageDeleteDialog(View view, ListElement item){
+    public void messageDeleteDialog(View view, ListElementCustomer item){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.confirmacion_hacer)
                 .setTitle(R.string.informacion);
-        builder.setPositiveButton(R.string.editar_cliente, (dialogInterface, i) -> moveToActivity(item));
-        builder.setNegativeButton(R.string.ver_registros, (dialogInterface, i) -> Snackbar.make(view, "Se muestra la lista de productos", Snackbar.LENGTH_LONG).setAction(R.string.action, null).show());
+        builder.setPositiveButton(R.string.editar_cliente, (dialogInterface, i) -> moveToActivity(item, actualizar_cliente.class));
+        builder.setNegativeButton(R.string.ver_registros, (dialogInterface, i) -> moveToActivity(item, deudas.class));
         builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-    public void moveToActivity(ListElement item){
-        Intent intent = new Intent(getActivity(), actualizar_cliente.class);
-        intent.putExtra("ListElement", item);
+    public void moveToActivity(ListElementCustomer item, Class c){
+        Intent intent = new Intent(getActivity(), c);
+        intent.putExtra("ListElementCustomer", item);
         startActivity(intent);
     }
 
@@ -117,7 +116,7 @@ public class clientes extends Fragment {
     public void setListView(ArrayList<Cliente> listClientes){
         elements.clear();
         for (Cliente c: listClientes) {
-            elements.add(new ListElement(
+            elements.add(new ListElementCustomer(
                     c.getCustomer_id(),
                     c.getFirst_name(),
                     c.getLast_name(),

@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LatePay">
         <activity
+            android:name=".deudas"
+            android:exported="false" />
+        <activity
             android:name=".actualizar_cliente"
             android:exported="false" />
         <activity

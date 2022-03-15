@@ -17,7 +17,6 @@
     <string name="menu_acerca_de">Acerca de</string>
     <string name="nombre_cliente">Ej. Cliente</string>
 
-
     <!--Nombres de las acciones-->
     <string name="guardar">Guardar</string>
     <string name="actualizar">Actualizar</string>
@@ -54,5 +53,8 @@
     <string name="si">Sí</string>
     <string name="informacion">Información</string>
     <string name="action">Action</string>
-
+    <string name="pagar_producto">Pagar</string>
+    <string name="editar_producto">Editar</string>
+    <string name="pagar_todo">Pagar todo</string>
+    <string name="agregar">Agregar</string>
 </resources>
