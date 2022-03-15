@@ -28,6 +28,7 @@
     <!--Nombres de los mesajes-->
     <string name="confirmacion_elimnar">¿Está seguro de eliminar el registro?, esta acción no se puede deshacer.</string>
     <string name="registro_eliminado">Registro eliminado exitosamente.</string>
+    <string name="registro_actualizado">Registro actualizado exitosamente.</string>
     <string name="confirmacion_hacer">¿Qué desea hacer?</string>
     <string name="ver_registros">Ver registros</string>
     <string name="editar_cliente">Editar cliente</string>

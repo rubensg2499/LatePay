@@ -72,7 +72,16 @@ public class clientes extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        View view = getView();
+        elements = new ArrayList<>();
+        getCustomers();
+        ListAdapter listAdapter = new ListAdapter(elements, getActivity(), item -> {
+            messageDeleteDialog(view,item);
+        });
+        RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(listAdapter);
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
