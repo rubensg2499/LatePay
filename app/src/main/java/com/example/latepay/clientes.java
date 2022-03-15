@@ -25,42 +25,17 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link clientes#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class clientes extends Fragment {
     ArrayList<Cliente> listClientes;
     List<ListElement> elements;
     private ActivityMainBinding binding;
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public clientes() {
         // Required empty public constructor
     }
-
-    // TODO: Rename and change types and number of parameters
-    public static clientes newInstance(String param1, String param2) {
-        clientes fragment = new clientes();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -72,15 +47,22 @@ public class clientes extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
+        View view = getView();
+        elements = new ArrayList<>();
+        getCustomers();
+        ListAdapter listAdapter = new ListAdapter(elements, getActivity(), item -> messageDeleteDialog(view,item));
+        if(view!=null) {
+            RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
+            recyclerView.setHasFixedSize(true);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            recyclerView.setAdapter(listAdapter);
+        }
     }
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState){
         elements = new ArrayList<>();
         getCustomers();
-        ListAdapter listAdapter = new ListAdapter(elements, getActivity(), item -> {
-            messageDeleteDialog(view,item);
-        });
+        ListAdapter listAdapter = new ListAdapter(elements, getActivity(), item -> messageDeleteDialog(view,item));
         RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -90,15 +72,9 @@ public class clientes extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.confirmacion_hacer)
                 .setTitle(R.string.informacion);
-        builder.setPositiveButton(R.string.editar_cliente, (dialogInterface, i) -> {
-            moveToActivity(item);
-        });
-        builder.setNegativeButton(R.string.ver_registros, (dialogInterface, i) -> {
-            Snackbar.make(view, "Se muestra la lista de productos", Snackbar.LENGTH_LONG).setAction(R.string.action, null).show();
-        });
-        builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> {
-            dialogInterface.dismiss();
-        });
+        builder.setPositiveButton(R.string.editar_cliente, (dialogInterface, i) -> moveToActivity(item));
+        builder.setNegativeButton(R.string.ver_registros, (dialogInterface, i) -> Snackbar.make(view, "Se muestra la lista de productos", Snackbar.LENGTH_LONG).setAction(R.string.action, null).show());
+        builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
     }
@@ -138,7 +114,6 @@ public class clientes extends Fragment {
         setListView(listClientes);
     }
 
-
     public void setListView(ArrayList<Cliente> listClientes){
         elements.clear();
         for (Cliente c: listClientes) {
@@ -151,7 +126,7 @@ public class clientes extends Fragment {
                     c.getAddress(),
                     c.getCreated_date(),
                     "MXN $"+c.getTotal_debt(),
-                    "#000000"
+                    "#674FA3"
             ));
         }
 

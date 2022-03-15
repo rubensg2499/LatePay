@@ -25,14 +25,22 @@
     <string name="aceptar">Aceptar</string>
     <string name="salir">Salir</string>
     <string name="cancelar">Cancelar</string>
+
     <!--Nombres de los mesajes-->
-    <string name="confirmacion_elimnar">¿Está seguro de eliminar el registro?, esta acción no se puede deshacer.</string>
+    <string name="confirmacion_eliminar">¿Está seguro de eliminar el cliente? Toda la información se eliminará (datos y registros de compra). Esta acción no se puede deshacer.</string>
     <string name="registro_eliminado">Registro eliminado exitosamente.</string>
+    <string name="registro_actualizado">Registro actualizado exitosamente.</string>
     <string name="confirmacion_hacer">¿Qué desea hacer?</string>
     <string name="ver_registros">Ver registros</string>
     <string name="editar_cliente">Editar cliente</string>
     <string name="deuda_total">Debe: MXN $</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="error_nombre">Debe ingresar un nombre.</string>
+    <string name="error_nombre_valido">Debe ingresar un nombre válido.</string>
+    <string name="error_apellido">Debe ingresar un apellido.</string>
+    <string name="error_apellido_valido">Debe ingresar un apellido válido.</string>
+    <string name="error_telefono">Ingrese un teléfono válido.</string>
+    <string name="error_correo">Ingrese un correo válido.</string>
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!--Nombres de los inputs-->
@@ -46,4 +54,5 @@
     <string name="si">Sí</string>
     <string name="informacion">Información</string>
     <string name="action">Action</string>
+
 </resources>
