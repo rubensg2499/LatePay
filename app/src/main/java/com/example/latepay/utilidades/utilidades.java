@@ -43,4 +43,8 @@ public class utilidades {
     public static final String FIELD_PAID = "paid";
     public static final String FIELD_BUY_DATE = "buy_date";
     public static final String FIELD_PAY_DATE = "pay_date";
+
+
+    //funciones globales
+
 }
