@@ -75,7 +75,7 @@ public class agregar_cliente extends Fragment {
     private void registerCustomer(View view) {
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(getActivity(),"late_pay_bd",null,1);
         SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         ContentValues cv = new ContentValues();
         cv.put(FIELD_FIRST_NAME, editNombre.getText().toString());

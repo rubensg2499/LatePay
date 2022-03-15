@@ -13,12 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import com.example.latepay.databinding.ActivityMainBinding;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.latepay.databinding.ActivityMainBinding;
 import com.example.latepay.entidades.Cliente;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,15 +79,29 @@ public class clientes extends Fragment {
         elements = new ArrayList<>();
         getCustomers();
         ListAdapter listAdapter = new ListAdapter(elements, getActivity(), item -> {
-            moveToActivity(item);
-
+            messageDeleteDialog(view,item);
         });
         RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(listAdapter);
     }
-
+    public void messageDeleteDialog(View view, ListElement item){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage(R.string.confirmacion_hacer)
+                .setTitle(R.string.informacion);
+        builder.setPositiveButton(R.string.editar_cliente, (dialogInterface, i) -> {
+            moveToActivity(item);
+        });
+        builder.setNegativeButton(R.string.ver_registros, (dialogInterface, i) -> {
+            Snackbar.make(view, "Se muestra la lista de productos", Snackbar.LENGTH_LONG).setAction(R.string.action, null).show();
+        });
+        builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> {
+            dialogInterface.dismiss();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
     public void moveToActivity(ListElement item){
         Intent intent = new Intent(getActivity(), actualizar_cliente.class);
         intent.putExtra("ListElement", item);
