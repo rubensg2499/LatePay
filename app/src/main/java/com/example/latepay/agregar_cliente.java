@@ -18,6 +18,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class agregar_cliente extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -37,6 +39,7 @@ public class agregar_cliente extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class agregar_cliente extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         buttonGuardar = view.findViewById(R.id.buttonGuardar);
         editNombre = view.findViewById(R.id.editTextNombre);
         editApellidos = view.findViewById(R.id.editTextApellidos);
@@ -54,26 +57,58 @@ public class agregar_cliente extends Fragment {
         editDireccion = view.findViewById(R.id.editTextDireccion);
 
         buttonGuardar.setOnClickListener(view1 -> {
-            if (!checkFields()){
-                registerCustomer(view1);
-            }
+            if (!checkFields()) registerCustomer(view1);
         });
 
     }
-    private boolean checkFields(){
+
+    private boolean checkFields() {
         boolean res = false;
-        if(editNombre.getText().toString().trim().equals("")){
+        Pattern fullNamePattern = Pattern.compile("^[a-zA-ZñÑáéíóúÁÉÍÓÚ]*$");
+
+        if (editNombre.getText().toString().trim().equals("")) {
             res = true;
             editNombre.setError("Debe ingresar un nombre.");
+        }else {
+            Matcher fullNameMatcher = fullNamePattern.matcher(editNombre.getText().toString());
+            if(!fullNameMatcher.find()){
+                res = true;
+                editNombre.setError("Debe ingresar un nombre válido.");
+            }
         }
-        if(editApellidos.getText().toString().trim().equals("")){
+        if (editApellidos.getText().toString().trim().equals("")) {
             res = true;
             editApellidos.setError("Debe ingresar un apellido.");
+        }else {
+            Matcher fullNameMatcher = fullNamePattern.matcher(editApellidos.getText().toString());
+            if(!fullNameMatcher.find()){
+                res = true;
+                editApellidos.setError("Debe ingresar un apellido válido.");
+            }
+        }
+        //Teléfono
+        if(!editTelefono.getText().toString().trim().equals("")){
+            Pattern phonePattern = Pattern.compile("^\\d{3}[\\s-.]?\\d{3}[\\s-.]?\\d{4}$");
+            Matcher phoneMatcher = phonePattern.matcher(editTelefono.getText().toString());
+            if(!phoneMatcher.find()){
+                res = true;
+                editTelefono.setError("Ingrese un teléfono válido.");
+            }
+        }
+        //Email
+        if(!editCorreo.getText().toString().trim().equals("")){
+            Pattern emailPattern = Pattern.compile("^[A-Za-z0-9._ñ%+-+-']+@[A-Za-z0-9.-]+\\.[A-Za-z]+$");
+            Matcher emailMatcher = emailPattern.matcher(editCorreo.getText().toString());
+            if(!emailMatcher.find()){
+                res = true;
+                editCorreo.setError("Ingrese un correo válido.");
+            }
         }
         return res;
     }
+
     private void registerCustomer(View view) {
-        ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(getActivity(),"late_pay_bd",null,1);
+        ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(getActivity(), "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -84,9 +119,10 @@ public class agregar_cliente extends Fragment {
         cv.put(FIELD_EMAIL, editCorreo.getText().toString());
         cv.put(FIELD_ADDRESS, editDireccion.getText().toString());
         cv.put(FIELD_CREATED_DATE, formatter.format(LocalDateTime.now()));
-        long result = db.insert(TABLE_CUSTOMER,FIELD_CUSTOMER_ID, cv);
-        Snackbar.make(view, "Cliente registrado exitosamente con el id " + result, Snackbar.LENGTH_LONG).setAction("Action",null).show();
+        long result = db.insert(TABLE_CUSTOMER, FIELD_CUSTOMER_ID, cv);
+        Snackbar.make(view, "Cliente registrado exitosamente con el id " + result, Snackbar.LENGTH_LONG).setAction("Action", null).show();
         cleanFields();
+        db.close();
     }
 
     private void cleanFields() {
