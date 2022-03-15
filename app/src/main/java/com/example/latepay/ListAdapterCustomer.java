@@ -13,16 +13,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
-    private List<ListElement> mdata;
+public class ListAdapterCustomer extends RecyclerView.Adapter<ListAdapterCustomer.ViewHolder> {
+    private List<ListElementCustomer> mdata;
     private LayoutInflater mInflater;
     private Context context;
-    final ListAdapter.onItemClickListener listener;
+    final ListAdapterCustomer.onItemClickListener listener;
 
     public interface onItemClickListener{
-        void onItemClick(ListElement item);
+        void onItemClick(ListElementCustomer item);
     }
-    public ListAdapter(List<ListElement> itemList, Context context, ListAdapter.onItemClickListener listener){
+    public ListAdapterCustomer(List<ListElementCustomer> itemList, Context context, ListAdapterCustomer.onItemClickListener listener){
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mdata = itemList;
@@ -33,15 +33,15 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     public int getItemCount(){ return mdata.size(); }
 
     @Override
-    public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ListAdapterCustomer.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View view = mInflater.inflate(R.layout.list_element, null);
-        return new ListAdapter.ViewHolder(view);
+        return new ListAdapterCustomer.ViewHolder(view);
     }
     @Override
-    public void onBindViewHolder(final ListAdapter.ViewHolder holder, final int position){
+    public void onBindViewHolder(final ListAdapterCustomer.ViewHolder holder, final int position){
         holder.bindData(mdata.get(position));
     }
-    public void setItems(List<ListElement> items){ mdata=items;}
+    public void setItems(List<ListElementCustomer> items){ mdata=items;}
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         ImageView iconImage;
@@ -54,7 +54,7 @@ public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
             deuda = itemView.findViewById(R.id.deuda_cliente);
         }
 
-        void bindData(final ListElement item){
+        void bindData(final ListElementCustomer item){
             iconImage.setColorFilter(Color.parseColor(item.getColor()), PorterDuff.Mode.SRC_IN);
             nombre.setText(item.getFirst_name() + " " + item.getLast_name());
             telefono.setText(item.getPhone());

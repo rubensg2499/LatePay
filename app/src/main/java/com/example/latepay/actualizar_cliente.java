@@ -55,7 +55,7 @@ public class actualizar_cliente extends AppCompatActivity {
         buttonEliminar = findViewById(R.id.buttonEliminar);
         buttonCancelar = findViewById(R.id.buttonCancelar);
 
-        ListElement element = (ListElement) getIntent().getSerializableExtra("ListElement");
+        ListElementCustomer element = (ListElementCustomer) getIntent().getSerializableExtra("ListElementCustomer");
         textViewID.setText("ID: " + element.getCustomer_id());
         textViewCreacion.setText("Fecha de creación: " + element.getCreated_date());
         editNombre.setText(element.getFirst_name());
@@ -71,7 +71,7 @@ public class actualizar_cliente extends AppCompatActivity {
         buttonCancelar.setOnClickListener(view -> this.finish());
     }
 
-    private void updateCustomer(View view, ListElement element) {
+    private void updateCustomer(View view, ListElementCustomer element) {
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -86,7 +86,7 @@ public class actualizar_cliente extends AppCompatActivity {
         this.finish();
     }
 
-    private void deleteCustomer(View view, ListElement element) {
+    private void deleteCustomer(View view, ListElementCustomer element) {
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
         db.delete(TABLE_DEBT, "customer_id = " + element.getCustomer_id(), null);
@@ -140,7 +140,7 @@ public class actualizar_cliente extends AppCompatActivity {
         return res;
     }
 
-    public void messageDeleteDialog(View view, ListElement element) {
+    public void messageDeleteDialog(View view, ListElementCustomer element) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.confirmacion_eliminar)
                 .setTitle(R.string.informacion);

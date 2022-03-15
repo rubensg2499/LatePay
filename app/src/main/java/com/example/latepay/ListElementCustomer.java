@@ -2,7 +2,7 @@ package com.example.latepay;
 
 import java.io.Serializable;
 
-public class ListElement implements Serializable {
+public class ListElementCustomer implements Serializable {
     public long customer_id;
     public String first_name;
     public String last_name;
@@ -13,7 +13,7 @@ public class ListElement implements Serializable {
     public String total_debt;
     public String color;
 
-    public ListElement(long customer_id, String first_name, String last_name, String phone, String email, String address, String created_date, String total_debt, String color) {
+    public ListElementCustomer(long customer_id, String first_name, String last_name, String phone, String email, String address, String created_date, String total_debt, String color) {
         this.customer_id = customer_id;
         this.first_name = first_name;
         this.last_name = last_name;
