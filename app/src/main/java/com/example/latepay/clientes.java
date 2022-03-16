@@ -1,6 +1,7 @@
 package com.example.latepay;
 
 import static com.example.latepay.utilidades.utilidades.FIELD_CUSTOMER_ID;
+import static com.example.latepay.utilidades.utilidades.FIELD_PAID;
 import static com.example.latepay.utilidades.utilidades.FIELD_PRICE;
 import static com.example.latepay.utilidades.utilidades.TABLE_CUSTOMER;
 import static com.example.latepay.utilidades.utilidades.TABLE_DEBT;
@@ -90,7 +91,7 @@ public class clientes extends Fragment {
         listClientes = new ArrayList<>();
         while(cursor.moveToNext()){
             double deuda = 0.0;
-            Cursor cursor2 = db.rawQuery("SELECT " + FIELD_PRICE + " FROM " + TABLE_DEBT + " WHERE "+FIELD_CUSTOMER_ID+" = "+cursor.getInt(0),null);
+            Cursor cursor2 = db.rawQuery("SELECT " + FIELD_PRICE + " FROM " + TABLE_DEBT + " WHERE "+FIELD_CUSTOMER_ID+" = "+cursor.getInt(0)+" AND "+FIELD_PAID+"='false'",null);
             while (cursor2.moveToNext()){
                 deuda+=cursor2.getDouble(0);
             }

@@ -30,7 +30,7 @@
     <string name="registro_eliminado">Registro eliminado exitosamente.</string>
     <string name="registro_actualizado">Registro actualizado exitosamente.</string>
     <string name="confirmacion_hacer">¿Qué desea hacer?</string>
-    <string name="ver_registros">Ver registros</string>
+    <string name="ver_registros">Ver cuenta</string>
     <string name="editar_cliente">Editar cliente</string>
     <string name="deuda_total">Debe: MXN $</string>
     <string name="error_nombre">Debe ingresar un nombre.</string>
