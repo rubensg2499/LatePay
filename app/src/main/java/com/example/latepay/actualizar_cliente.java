@@ -1,5 +1,8 @@
 package com.example.latepay;
 
+import static com.example.latepay.utilidades.utilidades.ER_EMAIL;
+import static com.example.latepay.utilidades.utilidades.ER_FULL_NAME;
+import static com.example.latepay.utilidades.utilidades.ER_PHONE;
 import static com.example.latepay.utilidades.utilidades.FIELD_ADDRESS;
 import static com.example.latepay.utilidades.utilidades.FIELD_EMAIL;
 import static com.example.latepay.utilidades.utilidades.FIELD_FIRST_NAME;
@@ -7,6 +10,9 @@ import static com.example.latepay.utilidades.utilidades.FIELD_LAST_NAME;
 import static com.example.latepay.utilidades.utilidades.FIELD_PHONE;
 import static com.example.latepay.utilidades.utilidades.TABLE_CUSTOMER;
 import static com.example.latepay.utilidades.utilidades.TABLE_DEBT;
+import static com.example.latepay.utilidades.utilidades.isCorrectPattern;
+import static com.example.latepay.utilidades.utilidades.isEmpty;
+import static com.example.latepay.utilidades.utilidades.showSnack;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,9 +26,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class actualizar_cliente extends AppCompatActivity {
     TextView textViewID;
@@ -86,7 +89,7 @@ public class actualizar_cliente extends AppCompatActivity {
         this.finish();
     }
 
-    private void deleteCustomer(View view, ListElementCustomer element) {
+    private void deleteCustomer(ListElementCustomer element) {
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
         db.delete(TABLE_DEBT, "customer_id = " + element.getCustomer_id(), null);
@@ -95,44 +98,38 @@ public class actualizar_cliente extends AppCompatActivity {
         this.finish();
     }
 
-    private boolean checkFields() {
+    private boolean checkFields(){
         boolean res = false;
-        Pattern fullNamePattern = Pattern.compile("^[a-zA-ZñÑáéíóúÁÉÍÓÚ]*$");
-
-        if (editNombre.getText().toString().trim().equals("")) {
+        //Nombre
+        if(isEmpty(editNombre)){
             res = true;
             editNombre.setError("Debe ingresar un nombre.");
-        } else {
-            Matcher fullNameMatcher = fullNamePattern.matcher(editNombre.getText().toString());
-            if (!fullNameMatcher.find()) {
+        }else{
+            if(!isCorrectPattern(editNombre.getText().toString().trim(), ER_FULL_NAME)){
                 res = true;
                 editNombre.setError("Debe ingresar un nombre válido.");
             }
         }
-        if (editApellidos.getText().toString().trim().equals("")) {
+        //Apellidos
+        if (isEmpty(editApellidos)) {
             res = true;
             editApellidos.setError("Debe ingresar un apellido.");
-        } else {
-            Matcher fullNameMatcher = fullNamePattern.matcher(editApellidos.getText().toString());
-            if (!fullNameMatcher.find()) {
+        }else {
+            if(!isCorrectPattern(editApellidos.getText().toString().trim(), ER_FULL_NAME)){
                 res = true;
                 editApellidos.setError("Debe ingresar un apellido válido.");
             }
         }
         //Teléfono
-        if (!editTelefono.getText().toString().trim().equals("")) {
-            Pattern phonePattern = Pattern.compile("^\\d{3}[\\s-.]?\\d{3}[\\s-.]?\\d{4}$");
-            Matcher phoneMatcher = phonePattern.matcher(editTelefono.getText().toString());
-            if (!phoneMatcher.find()) {
+        if(!isEmpty(editTelefono)){
+            if(!isCorrectPattern(editTelefono.getText().toString().trim(), ER_PHONE)){
                 res = true;
                 editTelefono.setError("Ingrese un teléfono válido.");
             }
         }
-        //Email
-        if (!editCorreo.getText().toString().trim().equals("")) {
-            Pattern emailPattern = Pattern.compile("^[A-Za-z0-9._ñ%+-+-']+@[A-Za-z0-9.-]+\\.[A-Za-z]+$");
-            Matcher emailMatcher = emailPattern.matcher(editCorreo.getText().toString());
-            if (!emailMatcher.find()) {
+        //Correo electrónico
+        if(!isEmpty(editCorreo)){
+            if(!isCorrectPattern(editCorreo.getText().toString().trim(), ER_EMAIL)){
                 res = true;
                 editCorreo.setError("Ingrese un correo válido.");
             }
@@ -145,8 +142,9 @@ public class actualizar_cliente extends AppCompatActivity {
         builder.setMessage(R.string.confirmacion_eliminar)
                 .setTitle(R.string.informacion);
         builder.setPositiveButton(R.string.eliminar, (dialogInterface, i) -> {
-            deleteCustomer(view, element);
-            Snackbar.make(view, R.string.registro_eliminado, Snackbar.LENGTH_LONG).setAction(R.string.action, null).show();
+            deleteCustomer(element);
+            showSnack(view, ""+R.string.registro_eliminado);
+
         });
         builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());
         AlertDialog dialog = builder.create();

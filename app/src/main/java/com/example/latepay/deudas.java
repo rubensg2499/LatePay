@@ -8,6 +8,7 @@ import static com.example.latepay.utilidades.utilidades.FIELD_PAY_DATE;
 import static com.example.latepay.utilidades.utilidades.FIELD_PRICE;
 import static com.example.latepay.utilidades.utilidades.FIELD_PRODUCT;
 import static com.example.latepay.utilidades.utilidades.TABLE_DEBT;
+import static com.example.latepay.utilidades.utilidades.showSnack;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -49,7 +51,26 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
         recyclerView.setAdapter(listAdapterDebt);
 
         buttonAgregar.setOnClickListener(view -> openDialog(element));
-        buttonPagarTodo.setOnClickListener(view -> pagarTodo(element.getCustomer_id()));
+        buttonPagarTodo.setOnClickListener(view -> {
+            if(elements.size()>0) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage(R.string.mensaje_pagar_todo)
+                        .setTitle(R.string.informacion)
+                        .setIcon(R.drawable.ic_paid_purple_24dp);
+                builder.setPositiveButton(R.string.pagar_producto, (dialogInterface, i) -> pagarTodo(element.getCustomer_id()));
+                builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }else{
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage(R.string.mensaje_no_productos)
+                        .setTitle(R.string.informacion)
+                        .setIcon(R.drawable.ic_paid_purple_24dp);
+                builder.setPositiveButton(R.string.aceptar, (dialogInterface, i) -> dialogInterface.dismiss());
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
     public void openDialog(ListElementCustomer element){
         ExampleDialog exampleDialog = new ExampleDialog(element);
@@ -58,9 +79,10 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
     public void messageOptionDialog(ListElementDebt item){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.confirmacion_hacer)
-                .setTitle(R.string.informacion);
+                .setTitle(R.string.informacion)
+                .setIcon(R.drawable.ic_paid_purple_24dp);
         builder.setPositiveButton(R.string.pagar_producto, (dialogInterface, i) -> dialogInterface.dismiss());
-        builder.setNegativeButton(R.string.editar_producto, (dialogInterface, i) -> dialogInterface.dismiss());
+        builder.setNegativeButton(R.string.eliminar, (dialogInterface, i) -> dialogInterface.dismiss());
         builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -76,6 +98,14 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(listAdapterDebt);
     }
+
+    @Override
+    public void applyParams(ArrayList<String> errores) {
+        for (String error: errores) {
+            showSnack(findViewById(R.id.list_deudas), error);
+        }
+    }
+
     private void registerProduct(long customer_id, String producto, double precio, View view) {
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
@@ -89,7 +119,6 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
         cv.put(FIELD_PAY_DATE, "NOT_PAID");
         cv.put(FIELD_CUSTOMER_ID, customer_id);
         long result = db.insert(TABLE_DEBT, FIELD_DEBT_ID, cv);
-        System.out.println("Producto registrado exitosamente con el id " + result);
         db.close();
     }
 

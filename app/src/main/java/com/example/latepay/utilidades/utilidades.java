@@ -1,5 +1,13 @@
 package com.example.latepay.utilidades;
 
+import android.view.View;
+import android.widget.EditText;
+
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class utilidades {
     public static final String CREATE_TABLE_CUSTOMER = "CREATE TABLE customer(" +
             "customer_id INTEGER NOT NULL, " +
@@ -44,7 +52,26 @@ public class utilidades {
     public static final String FIELD_BUY_DATE = "buy_date";
     public static final String FIELD_PAY_DATE = "pay_date";
 
+    // Expresiones regulares
 
-    //funciones globales
+    public static final String ER_FULL_NAME = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\ ]*$";
+    public static final String ER_PHONE = "^\\d{3}[\\s-.]?\\d{3}[\\s-.]?\\d{4}$";
+    public static final String ER_EMAIL = "^[A-Za-z0-9._ñ%+-+-']+@[A-Za-z0-9.-]+\\.[A-Za-z]+$";
+    public static final String ER_PRICE = "^[0-9]{1,5}\\.[0-9]{1,2}$";
 
+    public static boolean isCorrectPattern(String chain, String pattern){
+        Pattern _pattern = Pattern.compile(pattern);
+        Matcher matcher = _pattern.matcher(chain);
+        return matcher.find();
+    }
+
+    public static boolean isEmpty(EditText editText){
+        return editText.getText().toString().trim().equalsIgnoreCase("");
+    }
+
+    public static void showSnack(View view, String message){
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG)
+                .setAction("Action", null)
+                .show();
+    }
 }

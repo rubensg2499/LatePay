@@ -26,7 +26,7 @@
     <string name="cancelar">Cancelar</string>
 
     <!--Nombres de los mesajes-->
-    <string name="confirmacion_eliminar">¿Está seguro de eliminar el cliente? Toda la información se eliminará (datos y registros de compra). Esta acción no se puede deshacer.</string>
+    <string name="confirmacion_eliminar">¿Está seguro de eliminar el cliente? Toda la información se eliminará (datos y registros de compra). Esta acción no se puede deshacer por lo que no se recomienda.</string>
     <string name="registro_eliminado">Registro eliminado exitosamente.</string>
     <string name="registro_actualizado">Registro actualizado exitosamente.</string>
     <string name="confirmacion_hacer">¿Qué desea hacer?</string>
@@ -59,4 +59,7 @@
     <string name="agregar">Agregar</string>
     <string name="producto">Producto</string>
     <string name="precio">Precio</string>
+
+    <string name="mensaje_pagar_todo">Se pagarán todos los productos de este cliente. ¿Desea seguir con esta operación?</string>
+    <string name="mensaje_no_productos">No hay productos asociados a este cliente.</string>
 </resources>

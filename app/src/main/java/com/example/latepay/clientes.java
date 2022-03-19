@@ -71,7 +71,8 @@ public class clientes extends Fragment {
     public void messageDeleteDialog(View view, ListElementCustomer item){
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.confirmacion_hacer)
-                .setTitle(R.string.informacion);
+                .setTitle(R.string.informacion)
+                .setIcon(R.drawable.ic_paid_purple_24dp);
         builder.setPositiveButton(R.string.editar_cliente, (dialogInterface, i) -> moveToActivity(item, actualizar_cliente.class));
         builder.setNegativeButton(R.string.ver_registros, (dialogInterface, i) -> moveToActivity(item, deudas.class));
         builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());

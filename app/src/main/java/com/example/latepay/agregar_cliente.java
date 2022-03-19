@@ -18,8 +18,6 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class agregar_cliente extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -62,44 +60,38 @@ public class agregar_cliente extends Fragment {
 
     }
 
-    private boolean checkFields() {
+    private boolean checkFields(){
         boolean res = false;
-        Pattern fullNamePattern = Pattern.compile("^[a-zA-ZñÑáéíóúÁÉÍÓÚ]*$");
-
-        if (editNombre.getText().toString().trim().equals("")) {
+        //Nombre
+        if(isEmpty(editNombre)){
             res = true;
             editNombre.setError("Debe ingresar un nombre.");
-        }else {
-            Matcher fullNameMatcher = fullNamePattern.matcher(editNombre.getText().toString());
-            if(!fullNameMatcher.find()){
+        }else{
+            if(!isCorrectPattern(editNombre.getText().toString().trim(), ER_FULL_NAME)){
                 res = true;
                 editNombre.setError("Debe ingresar un nombre válido.");
             }
         }
-        if (editApellidos.getText().toString().trim().equals("")) {
+        //Apellidos
+        if (isEmpty(editApellidos)) {
             res = true;
             editApellidos.setError("Debe ingresar un apellido.");
         }else {
-            Matcher fullNameMatcher = fullNamePattern.matcher(editApellidos.getText().toString());
-            if(!fullNameMatcher.find()){
+            if(!isCorrectPattern(editApellidos.getText().toString().trim(), ER_FULL_NAME)){
                 res = true;
                 editApellidos.setError("Debe ingresar un apellido válido.");
             }
         }
         //Teléfono
-        if(!editTelefono.getText().toString().trim().equals("")){
-            Pattern phonePattern = Pattern.compile("^\\d{3}[\\s-.]?\\d{3}[\\s-.]?\\d{4}$");
-            Matcher phoneMatcher = phonePattern.matcher(editTelefono.getText().toString());
-            if(!phoneMatcher.find()){
+        if(!isEmpty(editTelefono)){
+            if(!isCorrectPattern(editTelefono.getText().toString().trim(), ER_PHONE)){
                 res = true;
                 editTelefono.setError("Ingrese un teléfono válido.");
             }
         }
-        //Email
-        if(!editCorreo.getText().toString().trim().equals("")){
-            Pattern emailPattern = Pattern.compile("^[A-Za-z0-9._ñ%+-+-']+@[A-Za-z0-9.-]+\\.[A-Za-z]+$");
-            Matcher emailMatcher = emailPattern.matcher(editCorreo.getText().toString());
-            if(!emailMatcher.find()){
+        //Correo electrónico
+        if(!isEmpty(editCorreo)){
+            if(!isCorrectPattern(editCorreo.getText().toString().trim(), ER_EMAIL)){
                 res = true;
                 editCorreo.setError("Ingrese un correo válido.");
             }
@@ -120,7 +112,7 @@ public class agregar_cliente extends Fragment {
         cv.put(FIELD_ADDRESS, editDireccion.getText().toString());
         cv.put(FIELD_CREATED_DATE, formatter.format(LocalDateTime.now()));
         long result = db.insert(TABLE_CUSTOMER, FIELD_CUSTOMER_ID, cv);
-        Snackbar.make(view, "Cliente registrado exitosamente con el id " + result, Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        showSnack(view, "Cliente registrado exitosamente con el id " + result);
         cleanFields();
         db.close();
     }
