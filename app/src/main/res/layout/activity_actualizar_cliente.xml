@@ -44,7 +44,8 @@
                 android:ems="10"
                 android:hint="@string/txt_nombre"
                 android:inputType="textPersonName"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"
+                android:maxLength="10"/>
 
             <EditText
                 android:id="@+id/editTextApellidosUpdate"
@@ -55,7 +56,8 @@
                 android:ems="10"
                 android:hint="@string/txt_apellidos"
                 android:inputType="textPersonName"
-                android:minHeight="48dp" />
+                android:minHeight="48dp"
+                android:maxLength="10"/>
 
             <EditText
                 android:id="@+id/editTextTelefonoUpdate"

@@ -1,14 +1,14 @@
 package com.example.latepay;
 
 public class ListElementDebt {
-    public long debt_id;
-    public String product;
-    public String price;
-    public String paid;
-    public String buy_date;
-    public String pay_date;
-    public long customer_id;
-    public String color;
+    private long debt_id;
+    private String product;
+    private String price;
+    private String paid;
+    private String buy_date;
+    private String pay_date;
+    private long customer_id;
+    private String color;
 
     public ListElementDebt(long debt_id, String product, String price, String paid, String buy_date, String pay_date, long customer_id, String color) {
         this.debt_id = debt_id;

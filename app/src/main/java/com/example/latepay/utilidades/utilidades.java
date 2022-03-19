@@ -57,7 +57,7 @@ public class utilidades {
     public static final String ER_FULL_NAME = "^[a-zA-ZñÑáéíóúÁÉÍÓÚ\\ ]*$";
     public static final String ER_PHONE = "^\\d{3}[\\s-.]?\\d{3}[\\s-.]?\\d{4}$";
     public static final String ER_EMAIL = "^[A-Za-z0-9._ñ%+-+-']+@[A-Za-z0-9.-]+\\.[A-Za-z]+$";
-    public static final String ER_PRICE = "^[0-9]{1,5}\\.[0-9]{1,2}$";
+    public static final String ER_PRICE = "^(?=.)([+-]?([0-9]*)(\\.([0-9]{1,2}))?)$";
 
     public static boolean isCorrectPattern(String chain, String pattern) {
         Pattern _pattern = Pattern.compile(pattern);

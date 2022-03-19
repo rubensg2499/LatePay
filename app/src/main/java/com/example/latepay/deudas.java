@@ -7,10 +7,12 @@ import static com.example.latepay.utilidades.utilidades.FIELD_PAID;
 import static com.example.latepay.utilidades.utilidades.FIELD_PAY_DATE;
 import static com.example.latepay.utilidades.utilidades.FIELD_PRICE;
 import static com.example.latepay.utilidades.utilidades.FIELD_PRODUCT;
+import static com.example.latepay.utilidades.utilidades.TABLE_CUSTOMER;
 import static com.example.latepay.utilidades.utilidades.TABLE_DEBT;
 import static com.example.latepay.utilidades.utilidades.showSnack;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
     List<ListElementDebt> elements;
     FloatingActionButton buttonAgregar;
     Button buttonPagarTodo;
+    ListElementCustomer element;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,7 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
         setContentView(R.layout.activity_deudas);
         buttonAgregar = findViewById(R.id.buttonAgregar);
         buttonPagarTodo = findViewById(R.id.buttonPagarTodo);
-        ListElementCustomer element = (ListElementCustomer) getIntent().getSerializableExtra("ListElementCustomer");
+        element = (ListElementCustomer) getIntent().getSerializableExtra("ListElementCustomer");
         this.setTitle(element.getFirst_name() + " " + element.getLast_name());
         elements = new ArrayList<>();
         getProducts(element.getCustomer_id());
@@ -57,7 +60,7 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
                 builder.setMessage(R.string.mensaje_pagar_todo)
                         .setTitle(R.string.informacion)
                         .setIcon(R.drawable.ic_paid_purple_24dp);
-                builder.setPositiveButton(R.string.pagar_producto, (dialogInterface, i) -> pagarTodo(element.getCustomer_id()));
+                builder.setPositiveButton(R.string.pagar_producto, (dialogInterface, i) -> payAll(element.getCustomer_id()));
                 builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());
                 AlertDialog dialog = builder.create();
                 dialog.show();
@@ -83,8 +86,27 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
         builder.setMessage(R.string.confirmacion_hacer)
                 .setTitle(R.string.informacion)
                 .setIcon(R.drawable.ic_paid_purple_24dp);
-        builder.setPositiveButton(R.string.pagar_producto, (dialogInterface, i) -> dialogInterface.dismiss());
-        builder.setNegativeButton(R.string.eliminar, (dialogInterface, i) -> dialogInterface.dismiss());
+        builder.setPositiveButton(R.string.pagar_producto, (dialogInterface, i) -> {
+            AlertDialog.Builder pagar = new AlertDialog.Builder(this);
+            pagar.setMessage("Se descontará este producto de la cuenta actual. ¿Desea continuar con esta operación?")
+                    .setTitle(R.string.informacion)
+                    .setIcon(R.drawable.ic_paid_purple_24dp);
+            pagar.setPositiveButton(R.string.pagar_producto, (dialogInterface1, i1) -> payProduct(item.getDebt_id()));
+            pagar.setNeutralButton(R.string.cancelar, (dialogInterface2, i2) -> dialogInterface2.dismiss());
+            AlertDialog dialogPagar = pagar.create();
+            dialogPagar.show();
+        });
+
+        builder.setNegativeButton(R.string.eliminar, (dialogInterface, i) -> {
+            AlertDialog.Builder eliminar = new AlertDialog.Builder(this);
+            eliminar.setMessage("Se eliminará este producto de la cuenta actual, no se contemplará en los reportes. ¿Desea continuar con esta operación?")
+                    .setTitle(R.string.informacion)
+                    .setIcon(R.drawable.ic_paid_purple_24dp);
+            eliminar.setPositiveButton(R.string.eliminar, (dialogInterface1, i1) -> deleteProduct(item.getDebt_id()));
+            eliminar.setNeutralButton(R.string.cancelar, (dialogInterface2, i2) -> dialogInterface2.dismiss());
+            AlertDialog dialogEliminar = eliminar.create();
+            dialogEliminar.show();
+        });
         builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -112,7 +134,6 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
         ContentValues cv = new ContentValues();
         cv.put(FIELD_PRODUCT, producto);
         cv.put(FIELD_PRICE, precio);
@@ -147,11 +168,40 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
         db.close();
     }
 
-    public void pagarProducto(long debt_id) {
+    public void payProduct(long debt_id) {
+        ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
+        SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        ContentValues cv = new ContentValues();
+        cv.put(FIELD_PAID, "true");
+        cv.put(FIELD_PAY_DATE, formatter.format(LocalDateTime.now()));
+        db.update(TABLE_DEBT, cv, "debt_id = " + debt_id, null);
+        db.close();
+        elements = new ArrayList<>();
+        getProducts(element.getCustomer_id());
 
+        ListAdapterDebt listAdapterDebt = new ListAdapterDebt(elements, this, item -> messageOptionDialog(item));
+        RecyclerView recyclerView = findViewById(R.id.list_deudas);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(listAdapterDebt);
     }
 
-    public void pagarTodo(long customer_id) {
+    public void deleteProduct(long debt_id) {
+        ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
+        SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
+        db.delete(TABLE_DEBT, "debt_id = " + debt_id, null);
+        db.close();
+        elements = new ArrayList<>();
+        getProducts(element.getCustomer_id());
+        ListAdapterDebt listAdapterDebt = new ListAdapterDebt(elements, this, item -> messageOptionDialog(item));
+        RecyclerView recyclerView = findViewById(R.id.list_deudas);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(listAdapterDebt);
+    }
+
+    public void payAll(long customer_id) {
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");

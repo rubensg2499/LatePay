@@ -12,7 +12,8 @@
         android:autofillHints=""
         android:hint="@string/producto"
         android:inputType="text"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:maxLength="16"/>
 
     <EditText
         android:id="@+id/txt_precio"
@@ -23,7 +24,8 @@
         android:autofillHints=""
         android:hint="@string/precio"
         android:inputType="numberDecimal"
-        android:minHeight="48dp" />
+        android:minHeight="48dp"
+        android:maxLength="8"/>
 
 </RelativeLayout>
 

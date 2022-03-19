@@ -3,15 +3,15 @@ package com.example.latepay;
 import java.io.Serializable;
 
 public class ListElementCustomer implements Serializable {
-    public long customer_id;
-    public String first_name;
-    public String last_name;
-    public String phone;
-    public String email;
-    public String address;
-    public String created_date;
-    public String total_debt;
-    public String color;
+    private long customer_id;
+    private String first_name;
+    private String last_name;
+    private String phone;
+    private String email;
+    private String address;
+    private String created_date;
+    private String total_debt;
+    private String color;
 
     public ListElementCustomer(long customer_id, String first_name, String last_name, String phone, String email, String address, String created_date, String total_debt, String color) {
         this.customer_id = customer_id;
