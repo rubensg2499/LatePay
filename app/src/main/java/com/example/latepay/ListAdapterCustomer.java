@@ -14,15 +14,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class ListAdapterCustomer extends RecyclerView.Adapter<ListAdapterCustomer.ViewHolder> {
-    private List<ListElementCustomer> mdata;
-    private LayoutInflater mInflater;
-    private Context context;
     final ListAdapterCustomer.onItemClickListener listener;
+    private List<ListElementCustomer> mdata;
+    private final LayoutInflater mInflater;
+    private final Context context;
 
-    public interface onItemClickListener{
-        void onItemClick(ListElementCustomer item);
-    }
-    public ListAdapterCustomer(List<ListElementCustomer> itemList, Context context, ListAdapterCustomer.onItemClickListener listener){
+    public ListAdapterCustomer(List<ListElementCustomer> itemList, Context context, ListAdapterCustomer.onItemClickListener listener) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mdata = itemList;
@@ -30,23 +27,34 @@ public class ListAdapterCustomer extends RecyclerView.Adapter<ListAdapterCustome
     }
 
     @Override
-    public int getItemCount(){ return mdata.size(); }
+    public int getItemCount() {
+        return mdata.size();
+    }
 
     @Override
-    public ListAdapterCustomer.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ListAdapterCustomer.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.list_element, null);
         return new ListAdapterCustomer.ViewHolder(view);
     }
+
     @Override
-    public void onBindViewHolder(final ListAdapterCustomer.ViewHolder holder, final int position){
+    public void onBindViewHolder(final ListAdapterCustomer.ViewHolder holder, final int position) {
         holder.bindData(mdata.get(position));
     }
-    public void setItems(List<ListElementCustomer> items){ mdata=items;}
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public void setItems(List<ListElementCustomer> items) {
+        mdata = items;
+    }
+
+    public interface onItemClickListener {
+        void onItemClick(ListElementCustomer item);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iconImage;
         TextView nombre, telefono, deuda;
-        ViewHolder(View itemView){
+
+        ViewHolder(View itemView) {
             super(itemView);
             iconImage = itemView.findViewById(R.id.iconImageView);
             nombre = itemView.findViewById(R.id.nombre_cliente);
@@ -54,7 +62,7 @@ public class ListAdapterCustomer extends RecyclerView.Adapter<ListAdapterCustome
             deuda = itemView.findViewById(R.id.deuda_cliente);
         }
 
-        void bindData(final ListElementCustomer item){
+        void bindData(final ListElementCustomer item) {
             iconImage.setColorFilter(Color.parseColor(item.getColor()), PorterDuff.Mode.SRC_IN);
             nombre.setText(item.getFirst_name() + " " + item.getLast_name());
             telefono.setText(item.getPhone());

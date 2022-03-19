@@ -5,10 +5,59 @@
     android:layout_height="match_parent"
     tools:context=".acerca_de">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/ic_launcher_foreground" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="LatePay 1.4.4"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Rubén Sánchez González"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="sangoru99@hotmail.com"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Ing. en computación, 1004"
+            android:layout_marginBottom="50dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Tendencias Actuales de Bases de Datos"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="M.C. Sergio Juárez Vázquez"
+            android:layout_marginBottom="10dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Universidad del Istmo, campus Tehuantepec"
+            android:layout_marginBottom="10dp"/>
+    </LinearLayout>
 </FrameLayout>

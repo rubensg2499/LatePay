@@ -1,6 +1,9 @@
 package com.example.latepay;
 
-import static com.example.latepay.utilidades.utilidades.*;
+import static com.example.latepay.utilidades.utilidades.CREATE_TABLE_CUSTOMER;
+import static com.example.latepay.utilidades.utilidades.CREATE_TABLE_DEBT;
+import static com.example.latepay.utilidades.utilidades.DELETE_TABLE_CUSTOMER;
+import static com.example.latepay.utilidades.utilidades.DELETE_TABLE_DEBT;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

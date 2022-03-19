@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dialogAgregarDeuda"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/txt_producto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints=""
+        android:hint="@string/producto"
+        android:inputType="text"
+        android:minHeight="48dp"
+        android:maxLength="16"/>
+
+    <EditText
+        android:id="@+id/txt_precio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_producto"
+        android:layout_alignParentStart="true"
+        android:autofillHints=""
+        android:hint="@string/precio"
+        android:inputType="numberDecimal"
+        android:minHeight="48dp"
+        android:maxLength="8"/>
+
+</RelativeLayout>
+
