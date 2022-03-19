@@ -1,20 +1,30 @@
 package com.example.latepay;
 
-import static com.example.latepay.utilidades.utilidades.*;
+import static com.example.latepay.utilidades.utilidades.ER_EMAIL;
+import static com.example.latepay.utilidades.utilidades.ER_FULL_NAME;
+import static com.example.latepay.utilidades.utilidades.ER_PHONE;
+import static com.example.latepay.utilidades.utilidades.FIELD_ADDRESS;
+import static com.example.latepay.utilidades.utilidades.FIELD_CREATED_DATE;
+import static com.example.latepay.utilidades.utilidades.FIELD_CUSTOMER_ID;
+import static com.example.latepay.utilidades.utilidades.FIELD_EMAIL;
+import static com.example.latepay.utilidades.utilidades.FIELD_FIRST_NAME;
+import static com.example.latepay.utilidades.utilidades.FIELD_LAST_NAME;
+import static com.example.latepay.utilidades.utilidades.FIELD_PHONE;
+import static com.example.latepay.utilidades.utilidades.TABLE_CUSTOMER;
+import static com.example.latepay.utilidades.utilidades.isCorrectPattern;
+import static com.example.latepay.utilidades.utilidades.isEmpty;
+import static com.example.latepay.utilidades.utilidades.showSnack;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -60,14 +70,14 @@ public class agregar_cliente extends Fragment {
 
     }
 
-    private boolean checkFields(){
+    private boolean checkFields() {
         boolean res = false;
         //Nombre
-        if(isEmpty(editNombre)){
+        if (isEmpty(editNombre)) {
             res = true;
             editNombre.setError("Debe ingresar un nombre.");
-        }else{
-            if(!isCorrectPattern(editNombre.getText().toString().trim(), ER_FULL_NAME)){
+        } else {
+            if (!isCorrectPattern(editNombre.getText().toString().trim(), ER_FULL_NAME)) {
                 res = true;
                 editNombre.setError("Debe ingresar un nombre válido.");
             }
@@ -76,22 +86,22 @@ public class agregar_cliente extends Fragment {
         if (isEmpty(editApellidos)) {
             res = true;
             editApellidos.setError("Debe ingresar un apellido.");
-        }else {
-            if(!isCorrectPattern(editApellidos.getText().toString().trim(), ER_FULL_NAME)){
+        } else {
+            if (!isCorrectPattern(editApellidos.getText().toString().trim(), ER_FULL_NAME)) {
                 res = true;
                 editApellidos.setError("Debe ingresar un apellido válido.");
             }
         }
         //Teléfono
-        if(!isEmpty(editTelefono)){
-            if(!isCorrectPattern(editTelefono.getText().toString().trim(), ER_PHONE)){
+        if (!isEmpty(editTelefono)) {
+            if (!isCorrectPattern(editTelefono.getText().toString().trim(), ER_PHONE)) {
                 res = true;
                 editTelefono.setError("Ingrese un teléfono válido.");
             }
         }
         //Correo electrónico
-        if(!isEmpty(editCorreo)){
-            if(!isCorrectPattern(editCorreo.getText().toString().trim(), ER_EMAIL)){
+        if (!isEmpty(editCorreo)) {
+            if (!isCorrectPattern(editCorreo.getText().toString().trim(), ER_EMAIL)) {
                 res = true;
                 editCorreo.setError("Ingrese un correo válido.");
             }

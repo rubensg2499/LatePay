@@ -14,23 +14,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:id="@+id/textViewID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/primario"
-                android:textAlignment="center"
-                android:gravity="center"
-                android:textColor="@color/secundario"
-                android:layout_marginTop="20dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
+                android:background="@color/primario"
+                android:gravity="center"
                 android:minHeight="48dp"
                 android:text="@string/txt_id"
+                android:textAlignment="center"
+                android:textColor="@color/secundario"
                 android:textSize="18sp" />
 
             <EditText
@@ -114,8 +116,8 @@
                         android:layout_height="match_parent"
                         android:layout_margin="15dp"
                         android:layout_weight="1"
-                        android:text="Eliminar"
-                        />
+                        android:text="Eliminar" />
+
                     <Button
                         android:id="@+id/buttonActualizar"
                         android:layout_width="wrap_content"
@@ -123,6 +125,7 @@
                         android:layout_margin="15dp"
                         android:layout_weight="1"
                         android:text="@string/actualizar" />
+
                     <Button
                         android:id="@+id/buttonCancelar"
                         android:layout_width="wrap_content"

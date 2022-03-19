@@ -9,28 +9,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class ListAdapterDebt extends RecyclerView.Adapter<ListAdapterDebt.ViewHolder>{
+public class ListAdapterDebt extends RecyclerView.Adapter<ListAdapterDebt.ViewHolder> {
+    final ListAdapterDebt.onItemClickListener listener;
     private List<ListElementDebt> mdata;
     private LayoutInflater mInflater;
     private Context context;
-    final ListAdapterDebt.onItemClickListener listener;
 
-    public interface onItemClickListener{
-        void onItemClick(ListElementDebt item);
-    }
-
-    public ListAdapterDebt(List<ListElementDebt> itemList, Context context, ListAdapterDebt.onItemClickListener listener){
+    public ListAdapterDebt(List<ListElementDebt> itemList, Context context, ListAdapterDebt.onItemClickListener listener) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
         this.mdata = itemList;
         this.listener = listener;
     }
-
 
     @Override
     public ListAdapterDebt.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -42,22 +36,32 @@ public class ListAdapterDebt extends RecyclerView.Adapter<ListAdapterDebt.ViewHo
     public void onBindViewHolder(ListAdapterDebt.ViewHolder holder, int position) {
         holder.bindData(mdata.get(position));
     }
-    public void setItems(List<ListElementDebt> items){ mdata=items;}
+
+    public void setItems(List<ListElementDebt> items) {
+        mdata = items;
+    }
 
     @Override
-    public int getItemCount() { return mdata.size(); }
+    public int getItemCount() {
+        return mdata.size();
+    }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public interface onItemClickListener {
+        void onItemClick(ListElementDebt item);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView iconImage;
         TextView producto, precio;
-        ViewHolder(View itemView){
+
+        ViewHolder(View itemView) {
             super(itemView);
             iconImage = itemView.findViewById(R.id.iconImageViewDebt);
             producto = itemView.findViewById(R.id.nombre_producto);
             precio = itemView.findViewById(R.id.importe_producto);
         }
 
-        void bindData(final ListElementDebt item){
+        void bindData(final ListElementDebt item) {
             iconImage.setColorFilter(Color.parseColor(item.getColor()), PorterDuff.Mode.SRC_IN);
             producto.setText(item.getProduct());
             precio.setText(String.valueOf(item.getPrice()));

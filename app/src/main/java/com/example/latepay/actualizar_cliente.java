@@ -98,14 +98,14 @@ public class actualizar_cliente extends AppCompatActivity {
         this.finish();
     }
 
-    private boolean checkFields(){
+    private boolean checkFields() {
         boolean res = false;
         //Nombre
-        if(isEmpty(editNombre)){
+        if (isEmpty(editNombre)) {
             res = true;
             editNombre.setError("Debe ingresar un nombre.");
-        }else{
-            if(!isCorrectPattern(editNombre.getText().toString().trim(), ER_FULL_NAME)){
+        } else {
+            if (!isCorrectPattern(editNombre.getText().toString().trim(), ER_FULL_NAME)) {
                 res = true;
                 editNombre.setError("Debe ingresar un nombre válido.");
             }
@@ -114,22 +114,22 @@ public class actualizar_cliente extends AppCompatActivity {
         if (isEmpty(editApellidos)) {
             res = true;
             editApellidos.setError("Debe ingresar un apellido.");
-        }else {
-            if(!isCorrectPattern(editApellidos.getText().toString().trim(), ER_FULL_NAME)){
+        } else {
+            if (!isCorrectPattern(editApellidos.getText().toString().trim(), ER_FULL_NAME)) {
                 res = true;
                 editApellidos.setError("Debe ingresar un apellido válido.");
             }
         }
         //Teléfono
-        if(!isEmpty(editTelefono)){
-            if(!isCorrectPattern(editTelefono.getText().toString().trim(), ER_PHONE)){
+        if (!isEmpty(editTelefono)) {
+            if (!isCorrectPattern(editTelefono.getText().toString().trim(), ER_PHONE)) {
                 res = true;
                 editTelefono.setError("Ingrese un teléfono válido.");
             }
         }
         //Correo electrónico
-        if(!isEmpty(editCorreo)){
-            if(!isCorrectPattern(editCorreo.getText().toString().trim(), ER_EMAIL)){
+        if (!isEmpty(editCorreo)) {
+            if (!isCorrectPattern(editCorreo.getText().toString().trim(), ER_EMAIL)) {
                 res = true;
                 editCorreo.setError("Ingrese un correo válido.");
             }
@@ -143,7 +143,7 @@ public class actualizar_cliente extends AppCompatActivity {
                 .setTitle(R.string.informacion);
         builder.setPositiveButton(R.string.eliminar, (dialogInterface, i) -> {
             deleteCustomer(element);
-            showSnack(view, ""+R.string.registro_eliminado);
+            showSnack(view, "" + R.string.registro_eliminado);
 
         });
         builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());

@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -34,6 +33,7 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
     List<ListElementDebt> elements;
     FloatingActionButton buttonAgregar;
     Button buttonPagarTodo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +41,7 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
         buttonAgregar = findViewById(R.id.buttonAgregar);
         buttonPagarTodo = findViewById(R.id.buttonPagarTodo);
         ListElementCustomer element = (ListElementCustomer) getIntent().getSerializableExtra("ListElementCustomer");
-        this.setTitle(element.getFirst_name()+" "+element.getLast_name());
+        this.setTitle(element.getFirst_name() + " " + element.getLast_name());
         elements = new ArrayList<>();
         getProducts(element.getCustomer_id());
         ListAdapterDebt listAdapterDebt = new ListAdapterDebt(elements, this, item -> messageOptionDialog(item));
@@ -52,7 +52,7 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
 
         buttonAgregar.setOnClickListener(view -> openDialog(element));
         buttonPagarTodo.setOnClickListener(view -> {
-            if(elements.size()>0) {
+            if (elements.size() > 0) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setMessage(R.string.mensaje_pagar_todo)
                         .setTitle(R.string.informacion)
@@ -61,7 +61,7 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
                 builder.setNeutralButton(R.string.cancelar, (dialogInterface, i) -> dialogInterface.dismiss());
                 AlertDialog dialog = builder.create();
                 dialog.show();
-            }else{
+            } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setMessage(R.string.mensaje_no_productos)
                         .setTitle(R.string.informacion)
@@ -72,11 +72,13 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
             }
         });
     }
-    public void openDialog(ListElementCustomer element){
+
+    public void openDialog(ListElementCustomer element) {
         ExampleDialog exampleDialog = new ExampleDialog(element);
-        exampleDialog.show(getSupportFragmentManager(),"Agregar cliente");
+        exampleDialog.show(getSupportFragmentManager(), "Agregar cliente");
     }
-    public void messageOptionDialog(ListElementDebt item){
+
+    public void messageOptionDialog(ListElementDebt item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.confirmacion_hacer)
                 .setTitle(R.string.informacion)
@@ -101,7 +103,7 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
 
     @Override
     public void applyParams(ArrayList<String> errores) {
-        for (String error: errores) {
+        for (String error : errores) {
             showSnack(findViewById(R.id.list_deudas), error);
         }
     }
@@ -122,39 +124,41 @@ public class deudas extends AppCompatActivity implements ExampleDialog.ExampleDi
         db.close();
     }
 
-    public void getProducts(long customer_id){
-        ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this,"late_pay_bd",null,1);
+    public void getProducts(long customer_id) {
+        ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_DEBT+" WHERE customer_id="+customer_id+" AND paid='false'", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_DEBT + " WHERE customer_id=" + customer_id + " AND paid='false'", null);
         elements = new ArrayList<>();
-        while(cursor.moveToNext()){
-                elements.add(
-                        new ListElementDebt(
-                                cursor.getLong(0),
-                                cursor.getString(1),
-                                "MXN $"+ cursor.getDouble(2),
-                                cursor.getString(3),
-                                cursor.getString(4),
-                                cursor.getString(5),
-                                cursor.getLong(6),
-                                "#674FA3"
-                        )
-                );
+        while (cursor.moveToNext()) {
+            elements.add(
+                    new ListElementDebt(
+                            cursor.getLong(0),
+                            cursor.getString(1),
+                            "MXN $" + cursor.getDouble(2),
+                            cursor.getString(3),
+                            cursor.getString(4),
+                            cursor.getString(5),
+                            cursor.getLong(6),
+                            "#674FA3"
+                    )
+            );
         }
         cursor.close();
         db.close();
     }
-    public void pagarProducto(long debt_id){
+
+    public void pagarProducto(long debt_id) {
 
     }
-    public void pagarTodo(long customer_id){
+
+    public void pagarTodo(long customer_id) {
         ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(this, "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getWritableDatabase();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         ContentValues cv = new ContentValues();
         cv.put(FIELD_PAID, "true");
         cv.put(FIELD_PAY_DATE, formatter.format(LocalDateTime.now()));
-        db.update(TABLE_DEBT,cv,"customer_id = "+customer_id,null);
+        db.update(TABLE_DEBT, cv, "customer_id = " + customer_id, null);
         db.close();
         elements = new ArrayList<>();
         ListAdapterDebt listAdapterDebt = new ListAdapterDebt(elements, this, item -> messageOptionDialog(item));

@@ -29,10 +29,12 @@ public class clientes extends Fragment {
     ArrayList<Cliente> listClientes;
     List<ListElementCustomer> elements;
     private ActivityMainBinding binding;
+
     // TODO: Rename parameter arguments, choose names that match
     public clientes() {
         // Required empty public constructor
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,31 +46,34 @@ public class clientes extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_clientes, container, false);
     }
+
     @Override
     public void onResume() {
         super.onResume();
         View view = getView();
         elements = new ArrayList<>();
         getCustomers();
-        ListAdapterCustomer listAdapterCustomer = new ListAdapterCustomer(elements, getActivity(), item -> messageDeleteDialog(view,item));
-        if(view!=null) {
+        ListAdapterCustomer listAdapterCustomer = new ListAdapterCustomer(elements, getActivity(), item -> messageDeleteDialog(view, item));
+        if (view != null) {
             RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
             recyclerView.setHasFixedSize(true);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             recyclerView.setAdapter(listAdapterCustomer);
         }
     }
+
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState){
+    public void onViewCreated(View view, Bundle savedInstanceState) {
         elements = new ArrayList<>();
         getCustomers();
-        ListAdapterCustomer listAdapterCustomer = new ListAdapterCustomer(elements, getActivity(), item -> messageDeleteDialog(view,item));
+        ListAdapterCustomer listAdapterCustomer = new ListAdapterCustomer(elements, getActivity(), item -> messageDeleteDialog(view, item));
         RecyclerView recyclerView = view.findViewById(R.id.list_clientes);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(listAdapterCustomer);
     }
-    public void messageDeleteDialog(View view, ListElementCustomer item){
+
+    public void messageDeleteDialog(View view, ListElementCustomer item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(R.string.confirmacion_hacer)
                 .setTitle(R.string.informacion)
@@ -79,22 +84,23 @@ public class clientes extends Fragment {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-    public void moveToActivity(ListElementCustomer item, Class c){
+
+    public void moveToActivity(ListElementCustomer item, Class c) {
         Intent intent = new Intent(getActivity(), c);
         intent.putExtra("ListElementCustomer", item);
         startActivity(intent);
     }
 
-    public void getCustomers(){
-        ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(getActivity(),"late_pay_bd",null,1);
+    public void getCustomers() {
+        ConexionSQLiteHelper conexionSQLiteHelper = new ConexionSQLiteHelper(getActivity(), "late_pay_bd", null, 1);
         SQLiteDatabase db = conexionSQLiteHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM "+TABLE_CUSTOMER, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_CUSTOMER, null);
         listClientes = new ArrayList<>();
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             double deuda = 0.0;
-            Cursor cursor2 = db.rawQuery("SELECT " + FIELD_PRICE + " FROM " + TABLE_DEBT + " WHERE "+FIELD_CUSTOMER_ID+" = "+cursor.getInt(0)+" AND "+FIELD_PAID+"='false'",null);
-            while (cursor2.moveToNext()){
-                deuda+=cursor2.getDouble(0);
+            Cursor cursor2 = db.rawQuery("SELECT " + FIELD_PRICE + " FROM " + TABLE_DEBT + " WHERE " + FIELD_CUSTOMER_ID + " = " + cursor.getInt(0) + " AND " + FIELD_PAID + "='false'", null);
+            while (cursor2.moveToNext()) {
+                deuda += cursor2.getDouble(0);
             }
             listClientes.add(
                     new Cliente(
@@ -115,18 +121,18 @@ public class clientes extends Fragment {
         setListView(listClientes);
     }
 
-    public void setListView(ArrayList<Cliente> listClientes){
+    public void setListView(ArrayList<Cliente> listClientes) {
         elements.clear();
-        for (Cliente c: listClientes) {
+        for (Cliente c : listClientes) {
             elements.add(new ListElementCustomer(
                     c.getCustomer_id(),
                     c.getFirst_name(),
                     c.getLast_name(),
-                    (c.getPhone().equalsIgnoreCase(""))?"Sin teléfono":c.getPhone(),
+                    (c.getPhone().equalsIgnoreCase("")) ? "Sin teléfono" : c.getPhone(),
                     c.getEmail(),
                     c.getAddress(),
                     c.getCreated_date(),
-                    "MXN $"+c.getTotal_debt(),
+                    "MXN $" + c.getTotal_debt(),
                     "#674FA3"
             ));
         }

@@ -59,17 +59,17 @@ public class utilidades {
     public static final String ER_EMAIL = "^[A-Za-z0-9._ñ%+-+-']+@[A-Za-z0-9.-]+\\.[A-Za-z]+$";
     public static final String ER_PRICE = "^[0-9]{1,5}\\.[0-9]{1,2}$";
 
-    public static boolean isCorrectPattern(String chain, String pattern){
+    public static boolean isCorrectPattern(String chain, String pattern) {
         Pattern _pattern = Pattern.compile(pattern);
         Matcher matcher = _pattern.matcher(chain);
         return matcher.find();
     }
 
-    public static boolean isEmpty(EditText editText){
+    public static boolean isEmpty(EditText editText) {
         return editText.getText().toString().trim().equalsIgnoreCase("");
     }
 
-    public static void showSnack(View view, String message){
+    public static void showSnack(View view, String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .show();

@@ -10,8 +10,8 @@
         android:id="@+id/buttonPagarTodo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/pagar_todo"
         android:layout_margin="15dp"
+        android:text="@string/pagar_todo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,9 +30,9 @@
         android:id="@+id/buttonAgregar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:contentDescription="@string/agregar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="20dp"
         app:srcCompat="@drawable/ic_add_white_24dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

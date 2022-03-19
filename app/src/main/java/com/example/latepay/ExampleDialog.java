@@ -17,19 +17,20 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDialogFragment;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 
 public class ExampleDialog extends AppCompatDialogFragment {
     private EditText editTextProducto;
     private EditText editTextPrecio;
-    private long customer_id;
+    private final long customer_id;
     private ArrayList<String> errores;
     private ExampleDialogListener listener;
-    public ExampleDialog(ListElementCustomer element){
+
+    public ExampleDialog(ListElementCustomer element) {
         customer_id = element.getCustomer_id();
     }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -38,8 +39,8 @@ public class ExampleDialog extends AppCompatDialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.agregar_producto, null);
         builder.setView(view)
-               .setTitle("Agregar producto")
-               .setIcon(R.drawable.ic_paid_purple_24dp);
+                .setTitle("Agregar producto")
+                .setIcon(R.drawable.ic_paid_purple_24dp);
 
         builder.setNeutralButton("Cancelar", new DialogInterface.OnClickListener() {
             @Override
@@ -48,14 +49,13 @@ public class ExampleDialog extends AppCompatDialogFragment {
             }
         });
         builder.setPositiveButton("Agregar", (dialogInterface, i) -> {
-            if(isEmpty(editTextProducto) || isEmpty(editTextPrecio)){
+            if (isEmpty(editTextProducto) || isEmpty(editTextPrecio)) {
                 errores.add("Error, no puede dejar campos vacíos.");
                 listener.applyParams(errores);
-            }else if(!isCorrectPattern(editTextPrecio.getText().toString().trim(),ER_PRICE)){
+            } else if (!isCorrectPattern(editTextPrecio.getText().toString().trim(), ER_PRICE)) {
                 errores.add("Error, el precio ingresado es incorrecto.");
                 listener.applyParams(errores);
-            }
-            else {
+            } else {
                 //Aplicar mejor un patron
                 String textProduct = editTextProducto.getText().toString();
                 double textPrice = Double.parseDouble(editTextPrecio.getText().toString());
@@ -73,12 +73,13 @@ public class ExampleDialog extends AppCompatDialogFragment {
         try {
             listener = (ExampleDialogListener) context;
         } catch (ClassCastException e) {
-            throw new ClassCastException(context +" Debe implementar ExampleDialogListener");
+            throw new ClassCastException(context + " Debe implementar ExampleDialogListener");
         }
     }
 
     public interface ExampleDialogListener {
-        void applyParams(long customer_id,String producto, double precio, View view);
+        void applyParams(long customer_id, String producto, double precio, View view);
+
         void applyParams(ArrayList<String> errores);
     }
 }

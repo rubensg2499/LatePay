@@ -20,7 +20,8 @@ public class ListElementDebt {
         this.customer_id = customer_id;
         this.color = color;
     }
-    public ListElementDebt(){
+
+    public ListElementDebt() {
 
     }
 
